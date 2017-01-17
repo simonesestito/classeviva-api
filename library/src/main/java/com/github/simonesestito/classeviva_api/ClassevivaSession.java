@@ -124,6 +124,7 @@ public class ClassevivaSession {
             }
 
             private double fromStringToDouble(String value) {
+				value = value.replaceAll(",", ".").replaceAll("=", "--");
                 double extra = 0.00;
                 while (value.contains("+")){
                     value = value.replaceFirst("\\+", "");
