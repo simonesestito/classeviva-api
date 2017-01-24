@@ -30,7 +30,7 @@ dependencies {
 
 ##How to use
 ####1) Create a new ClassevivaSession,
-passing your secret API key (if you don't have one, go to <a href="https://github.com/simonesestito/classeviva-api#api-key"><i><b>API Key</b></i></a> paragraph) and Context
+passing your secret API key (if you don't have one, go to <a href="https://github.com/simonesestito/classeviva-api/blob/master/README.md#api-key"><i><b>API Key</b></i></a> paragraph) and Context
 ```Java
 ClassevivaSession session = new ClassevivaSession(API_KEY, getApplicationContext());
 ```
@@ -94,7 +94,7 @@ if you call _getAgenda()_ or _getMarksList()_ **before** _login()_, you will thr
 
 
 ##Api Key
-If you haven't got any API Key, you have to ask it to <a href="https://github.com/Sismaa">@Sismaa</a>
+If you haven't got any API Key, you have to ask it to <a href="https://github.com/wettsy/">@Wettsy</a>
 
 
 ##License
