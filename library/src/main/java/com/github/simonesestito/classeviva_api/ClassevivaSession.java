@@ -63,6 +63,7 @@ public class ClassevivaSession {
         Map<String, String> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
+		params.put("custcode", "");
 
         //Create HTTP Request to login
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, apiKey, "https://api.x9d.it/classeviva/v1/login", params, new OnResultsAvailable<JSONArray>() {
