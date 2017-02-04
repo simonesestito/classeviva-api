@@ -14,7 +14,7 @@ public class AgendaItem implements Serializable {
 
     public static final String TYPE_HOMEWORK = "esercizi", TYPE_TEST = "verifica", TYPE_INTERROGATION = "interrogazione", TYPE_GENERIC = "nota";
 
-    private String text = "", type = "", materia = "";
+    private String text = "", type = "", subject = "";
     private Calendar date;
 
     public String getType() {
@@ -25,8 +25,8 @@ public class AgendaItem implements Serializable {
         return date;
     }
 
-    public String getMateria() {
-        return materia;
+    public String getSubject() {
+        return subject;
     }
 
     public String getText() {
@@ -37,8 +37,8 @@ public class AgendaItem implements Serializable {
         this.date = date;
     }
 
-    public void setMateria(String materia) {
-        this.materia = materia;
+    public void setSubject(String materia) {
+        this.subject = materia;
     }
 
     public void setText(String text) {

@@ -23,7 +23,7 @@ repositories {
 Add the Library to your **module** _build.gradle_:
 ```Javascript
 dependencies {
- compile 'com.github.simonesestito:classeviva-api:1.0.2+'
+ compile 'com.github.simonesestito:classeviva-api:1.1'
  .....
 }
 ```
@@ -36,10 +36,10 @@ ClassevivaSession session = new ClassevivaSession(API_KEY, getApplicationContext
 ```
 ####2) Login
 ```Java
-OnResultsAvailable<String> listener = new OnResultsAvailable<>(){
+OnResultsAvailable<Profile> listener = new OnResultsAvailable<>(){
  @Override
- public void onResultsAvailable(String result, ClassevivaSession instance){
-  //"result" is the unique session key
+ public void onResultsAvailable(Profile result, ClassevivaSession instance){
+  //"result" is the user profile
   //"instance" is your ClassevivaSession object
  }
 

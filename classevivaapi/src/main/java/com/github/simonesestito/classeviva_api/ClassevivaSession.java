@@ -9,6 +9,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.github.simonesestito.classeviva_api.objects.AgendaItem;
 import com.github.simonesestito.classeviva_api.objects.Mark;
+import com.github.simonesestito.classeviva_api.objects.Profile;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +23,7 @@ import java.util.Map;
 
 public class ClassevivaSession {
 
-    private final String sharedPreferencesFilename = "classeviva_api_preferences";
+    private final String SHARED_PREFERENCES_FILENAME = "classeviva_api_preferences";
 
     private Context ctx;
     private RequestQueue requestQueue;
@@ -42,23 +43,29 @@ public class ClassevivaSession {
         requestQueue = Volley.newRequestQueue(ctx);
     }
 
-    public void login(String username, String password, final OnResultsAvailable<String> onLogin) {
+    public void login(String username, String password, final OnResultsAvailable<Profile> onLogin) {
         //Load sharedpreferences
-        SharedPreferences sharedPreferences = ctx.getSharedPreferences(sharedPreferencesFilename, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(SHARED_PREFERENCES_FILENAME, Context.MODE_PRIVATE);
 
         //Check if there's an existing instance
         if ((System.currentTimeMillis() - sharedPreferences.getLong("last_classeviva_session_time", 0) < 3600000 /*1 hour*/)
-                && sharedPreferences.getString("last_classeviva_session_key", null) != null) {
+                && sharedPreferences.getString("last_classeviva_session_login", null) != null) {
             //There's an existing instance and it isn't expired (an instance'll expire in 1 hour)
-            sessionKey = sharedPreferences.getString("last_classeviva_session_key", null);
-            onLogin.onResultsAvailable(sessionKey, this);
+            String lastJson = sharedPreferences.getString("last_classeviva_session_login", null);
+            try {
+                Profile user = new Profile(new JSONArray(lastJson));
+                sessionKey = user.getSessionKey();
+                onLogin.onResultsAvailable(user, this);
+            } catch (JSONException e) {
+                performLogin(username, password, onLogin, sharedPreferences);
+            }
         } else {
             //We need to login
             performLogin(username, password, onLogin, sharedPreferences);
         }
     }
 
-    private void performLogin(String username, String password, final OnResultsAvailable<String> onLogin, SharedPreferences sharedPreferences) {
+    private void performLogin(final String username, String password, final OnResultsAvailable<Profile> onLogin, final SharedPreferences sharedPreferences) {
         //Create params
         Map<String, String> params = new HashMap<>();
         params.put("username", username);
@@ -70,12 +77,16 @@ public class ClassevivaSession {
             @Override
             public void onResultsAvailable(JSONArray result, ClassevivaSession instance) {
                 try {
-                    //Get Session Key from JSONArray
-                    String obtainedKey = result.getJSONObject(0).getString("session");
+                    //Get Profile from JSONArray
+                    Profile user = new Profile(result);
                     //Save sessionKey
-                    sessionKey = obtainedKey;
+                    sessionKey = user.getSessionKey();
+                    //Save profile
+                    sharedPreferences.edit()
+                            .putString("last_classeviva_session_login", user.toString())
+                            .apply();
                     //Notify success
-                    onLogin.onResultsAvailable(obtainedKey, instance);
+                    onLogin.onResultsAvailable(user, instance);
                 } catch (JSONException e){
                     onLogin.onError(e);
                 }
@@ -122,30 +133,6 @@ public class ClassevivaSession {
                 } catch (JSONException e){
                     listener.onError(e);
                 }
-            }
-
-            private double fromStringToDouble(String value) {
-		value = value.replaceAll(",", ".").replaceAll("=", "--");
-                double extra = 0.00;
-                while (value.contains("+")){
-                    value = value.replaceFirst("\\+", "");
-                    //Add 0.25 for each "+"
-                    extra += 0.25;
-                }
-                while (value.contains("-")){
-                    value = value.replaceFirst("-", "");
-                    //Remove 0.25 for each "-"
-                    extra -= 0.25;
-                }
-                while (value.contains("\u00bd")){
-                    value = value.replaceFirst("\u00bd", "");
-                    //Add 0.50
-                    extra += 0.50;
-                }
-                if (org.apache.commons.lang3.StringUtils.isNumeric(value))
-                    return Double.valueOf(value)+extra;
-                else
-                    return 0;
             }
 
             @Override
@@ -212,5 +199,57 @@ public class ClassevivaSession {
         }, this /*ClassevivaSession*/);
 
         requestQueue.add(request);
+    }
+
+    /*****************  UTILS   *****************/
+    private double fromStringToDouble(String value) {
+        value = value.replaceAll(",", ".").replaceAll("=", "--");
+        double extra = 0.00;
+        while (value.contains("+")){
+            value = value.replaceFirst("\\+", "");
+            //Add 0.25 for each "+"
+            extra += 0.25;
+        }
+        while (value.contains("-")){
+            value = value.replaceFirst("-", "");
+            //Remove 0.25 for each "-"
+            extra -= 0.25;
+        }
+        while (value.contains("\u00bd")){
+            value = value.replaceFirst("\u00bd", "");
+            //Add 0.50
+            extra += 0.50;
+        }
+
+        //Test halfMarkScheme
+        //Example: "7/8"
+        double halfMarkScheme = halfMarkScheme(value);
+        if (halfMarkScheme > 0)
+            return halfMarkScheme + extra;
+
+        if (isNumeric(value))
+            return Double.valueOf(value)+extra;
+        else
+            return 0;
+    }
+
+
+    private double halfMarkScheme(String m){
+        double result = 0.0;
+        m = m.replaceAll(" ","");
+        if (m.length() == 3){
+            if (isNumeric(m.charAt(0)) && (m.charAt(1)+"").equals("/") && isNumeric(m.charAt(2)))
+                result = Double.parseDouble(m.charAt(0)+"") + 0.5;
+        }
+        return result;
+    }
+
+
+    private boolean isNumeric(String str){
+        return str.matches("-?\\d+(\\.\\d+)?");
+    }
+
+    private boolean isNumeric(char str){
+        return isNumeric(str + "");
     }
 }
