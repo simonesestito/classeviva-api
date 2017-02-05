@@ -23,7 +23,7 @@ repositories {
 Add the Library to your **module** _build.gradle_:
 ```Javascript
 dependencies {
- compile 'com.github.simonesestito:classeviva-api:1.1'
+ compile 'com.github.simonesestito:classeviva-api:1.2'
  .....
 }
 ```
