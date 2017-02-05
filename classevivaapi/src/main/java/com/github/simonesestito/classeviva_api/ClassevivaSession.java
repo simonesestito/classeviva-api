@@ -165,6 +165,7 @@ public class ClassevivaSession {
                         agendaItem.setDate(jsonItem.getString("start"));
                         agendaItem.setText(jsonItem.getString("nota_2"));
                         agendaItem.setType(getType(jsonItem.getString("title")));
+                        agendaItem.setTeacher(jsonItem.getString("autore_desc"));
                         agendaItems.add(agendaItem);
                     }
                     listener.onResultsAvailable(agendaItems, instance);

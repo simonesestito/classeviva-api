@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ClasseViva_API.iml" filepath="$PROJECT_DIR$/ClasseViva_API.iml" />
+      <module fileurl="file://$PROJECT_DIR$/classeviva-api.iml" filepath="$PROJECT_DIR$/classeviva-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/classevivaapi/classevivaapi.iml" filepath="$PROJECT_DIR$/classevivaapi/classevivaapi.iml" />
     </modules>
   </component>
