@@ -1,5 +1,7 @@
 package com.github.simonesestito.classeviva_api;
 
+import android.util.Log;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -22,6 +24,7 @@ public class JsonArrayRequest extends StringRequest {
         super(method, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.wtf("ClasseViva Response", response);
                 try {
                     //Transform String to JSONArray
                     listener.onResultsAvailable(new JSONArray(response), instance);

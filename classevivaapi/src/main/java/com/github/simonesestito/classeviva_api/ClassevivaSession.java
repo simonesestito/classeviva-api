@@ -10,6 +10,8 @@ import com.android.volley.toolbox.Volley;
 import com.github.simonesestito.classeviva_api.objects.AgendaItem;
 import com.github.simonesestito.classeviva_api.objects.Mark;
 import com.github.simonesestito.classeviva_api.objects.Profile;
+import com.github.simonesestito.classeviva_api.objects.Subject;
+import com.github.simonesestito.classeviva_api.objects.SubjectDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -101,6 +103,46 @@ public class ClassevivaSession {
         requestQueue.add(request);
     }
 
+    public void getSubjectDetails(Subject subject, final OnResultsAvailable<SubjectDetails> listener){
+        if (sessionKey == null) {
+            listener.onError(new IllegalStateException("You have to login before get subjects list"));
+            return;
+        }
+
+        //TODO: Work in progress
+    }
+
+    //Get all subjects
+    public void getSubjects(final OnResultsAvailable<List<Subject>> listener){
+        if (sessionKey == null) {
+            listener.onError(new IllegalStateException("You have to login before get subjects list"));
+            return;
+        }
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, "https://api.morrillo.it/classeviva/v1/subjects/" + sessionKey, null, new OnResultsAvailable<JSONArray>() {
+            @Override
+            public void onResultsAvailable(JSONArray result, ClassevivaSession instance) {
+                try {
+                    List<Subject> subjects = new ArrayList<>();
+                    for (int i = 0; i < result.length(); i++){
+                        JSONObject subjectJSON = result.getJSONObject(i);
+                        subjects.add(new Subject(subjectJSON.getInt("sid"), subjectJSON.getString("name")));
+                    }
+
+                    listener.onResultsAvailable(subjects, instance);
+                } catch (JSONException e){
+                    listener.onError(e);
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                listener.onError(e);
+            }
+        }, this /*ClassevivaSession*/);
+
+        requestQueue.add(request);
+    }
 
     //Get all grades
     public void getMarksList(final OnResultsAvailable<List<Mark>> listener) {
@@ -110,7 +152,7 @@ public class ClassevivaSession {
             return;
         }
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, "https://api.x9d.it/classeviva/v1/grades/" + sessionKey, null /*No params*/, new OnResultsAvailable<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, "https://api.morrillo.it/classeviva/v1/grades/" + sessionKey, null /*No params*/, new OnResultsAvailable<JSONArray>() {
             @Override
             public void onResultsAvailable(JSONArray result, ClassevivaSession instance) {
                 try {
