@@ -75,7 +75,7 @@ public class ClassevivaSession {
 		params.put("custcode", "");
 
         //Create HTTP Request to login
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, apiKey, "https://api.x9d.it/classeviva/v1/login", params, new OnResultsAvailable<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, apiKey, "https://api.morrillo.it/classeviva/v1/login", params, new OnResultsAvailable<JSONArray>() {
             @Override
             public void onResultsAvailable(JSONArray result, ClassevivaSession instance) {
                 try {
@@ -195,7 +195,7 @@ public class ClassevivaSession {
             return;
         }
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, "https://api.x9d.it/classeviva/v1/agenda/" + sessionKey, null /*No params*/, new OnResultsAvailable<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, "https://api.morrillo.it/classeviva/v1/agenda/" + sessionKey, null /*No params*/, new OnResultsAvailable<JSONArray>() {
             @Override
             public void onResultsAvailable(JSONArray result, ClassevivaSession instance) {
                 try {
