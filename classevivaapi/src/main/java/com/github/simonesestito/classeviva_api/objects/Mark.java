@@ -25,8 +25,10 @@ public class Mark implements Serializable {
          */
         Calendar result = Calendar.getInstance();
         result.set(Calendar.DAY_OF_MONTH, Integer.valueOf(date.substring(0, 2)));
-        result.set(Calendar.MONTH, Integer.valueOf(date.substring(date.length()-2, date.length())));
-        result.set(Calendar.YEAR, result.get(Calendar.YEAR)-1);
+        int month = Integer.valueOf(date.substring(date.length()-2, date.length()));
+        result.set(Calendar.MONTH, month);
+        if (month < Calendar.getInstance().get(Calendar.MONTH))
+            result.set(Calendar.YEAR, result.get(Calendar.YEAR)-1);
         this.date = result;
     }
 
