@@ -229,10 +229,10 @@ public class ClassevivaSession {
                 if (text.contains("interrogazion"))
                     return AgendaItem.TYPE_INTERROGATION;
 
-                else if (text.contains("verific"))
+                else if (text.contains("verific") || text.contains("compito in classe"))
                     return AgendaItem.TYPE_TEST;
 
-                else if (text.contains("esercizi"))
+                else if (text.contains("esercizi") || text.contains("compit"))
                     return AgendaItem.TYPE_HOMEWORK;
 
                 else
