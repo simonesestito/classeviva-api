@@ -36,7 +36,7 @@ public class JsonArrayRequest extends StringRequest {
             @Override
             public void onErrorResponse(VolleyError error) {
                 try {
-                    Log.wtf("Bad Internet response", error.networkResponse.toString());
+                    Log.wtf("Bad Internet response", new String(error.networkResponse.data));
                 } catch (Exception e){
                     e.printStackTrace();
                 }
