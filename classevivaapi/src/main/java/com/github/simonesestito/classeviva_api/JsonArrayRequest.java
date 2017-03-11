@@ -9,6 +9,7 @@ import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,11 +37,20 @@ public class JsonArrayRequest extends StringRequest {
             @Override
             public void onErrorResponse(VolleyError error) {
                 try {
-                    Log.wtf("Bad Internet response", new String(error.networkResponse.data));
+                    String response = new String(error.networkResponse.data);
+                    Log.wtf("Bad Internet response", response);
+
+                    //Have I made too many requests?
+                    JSONObject object = new JSONObject(response);
+                    if (object.getJSONObject("response").getString("msg").equalsIgnoreCase("Call limit reached."))
+                        listener.onError(new Exception("Call limit reached.", error));
+                    else
+                        throw new Exception(); //Call "catch" block
+
                 } catch (Exception e){
                     e.printStackTrace();
+                    listener.onError(error);
                 }
-                listener.onError(error);
             }
         });
 
