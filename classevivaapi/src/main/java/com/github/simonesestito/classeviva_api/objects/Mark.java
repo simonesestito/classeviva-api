@@ -15,7 +15,7 @@ public class Mark implements Serializable {
 
     public Mark(double value, String subject, String type, String date){
         this.value = value;
-        this.subject = subject;
+        this.subject = Utils.getInstance().capitalizeFirst(subject);
         this.type = type;
 
         /*

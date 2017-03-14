@@ -13,7 +13,7 @@ public class Subject implements Serializable {
 
     public Subject(int id, String name){
         this.id = id;
-        this.name = name;
+        this.name = Utils.getInstance().capitalizeFirst(name);
     }
 
     public String getName() {
