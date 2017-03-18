@@ -38,7 +38,7 @@ public class AgendaItem implements Serializable {
     }
 
     public void setTeacher(String materia) {
-        this.teacher = materia;
+        this.teacher = Utils.getInstance().capitalizeWords(materia);
     }
 
     public void setText(String text) {
