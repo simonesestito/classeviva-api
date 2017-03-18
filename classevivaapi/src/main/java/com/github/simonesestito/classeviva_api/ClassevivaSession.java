@@ -251,13 +251,13 @@ public class ClassevivaSession {
         double extra = 0.00;
         while (value.contains("+")){
             value = value.replaceFirst("\\+", "");
-            //Add 0.25 for each "+"
-            extra += 0.25;
+            //Add 0.2 for each "+"
+            extra += 0.2;
         }
         while (value.contains("-")){
             value = value.replaceFirst("-", "");
-            //Remove 0.25 for each "-"
-            extra -= 0.25;
+            //Remove 0.2 for each "-"
+            extra -= 0.2;
         }
         while (value.contains("\u00bd")){
             value = value.replaceFirst("\u00bd", "");
