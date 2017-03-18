@@ -3,6 +3,7 @@ package com.github.simonesestito.classeviva_api;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -75,7 +76,7 @@ public class ClassevivaSession {
 		params.put("custcode", "");
 
         //Create HTTP Request to login
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, apiKey, "https://api.morrillo.it/classeviva/v1/login", params, new OnResultsAvailable<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, apiKey, getApiUrl() + "login", params, new OnResultsAvailable<JSONArray>() {
             @Override
             public void onResultsAvailable(JSONArray result, ClassevivaSession instance) {
                 try {
@@ -119,7 +120,7 @@ public class ClassevivaSession {
             return;
         }
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, "https://api.morrillo.it/classeviva/v1/subjects/" + sessionKey, null, new OnResultsAvailable<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, getApiUrl() + "subjects/" + sessionKey, null, new OnResultsAvailable<JSONArray>() {
             @Override
             public void onResultsAvailable(JSONArray result, ClassevivaSession instance) {
                 try {
@@ -152,7 +153,7 @@ public class ClassevivaSession {
             return;
         }
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, "https://api.morrillo.it/classeviva/v1/grades/" + sessionKey, null /*No params*/, new OnResultsAvailable<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, getApiUrl() + "grades/" + sessionKey, null /*No params*/, new OnResultsAvailable<JSONArray>() {
             @Override
             public void onResultsAvailable(JSONArray result, ClassevivaSession instance) {
                 try {
@@ -195,7 +196,7 @@ public class ClassevivaSession {
             return;
         }
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, "https://api.morrillo.it/classeviva/v1/agenda/" + sessionKey, null /*No params*/, new OnResultsAvailable<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiKey, getApiUrl() + "agenda/" + sessionKey, null /*No params*/, new OnResultsAvailable<JSONArray>() {
             @Override
             public void onResultsAvailable(JSONArray result, ClassevivaSession instance) {
                 try {
@@ -294,5 +295,14 @@ public class ClassevivaSession {
 
     private boolean isNumeric(char str){
         return isNumeric(str + "");
+    }
+
+    private String getApiUrl(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            return "https://api.morrillo.it/classeviva/v1/";
+        } else {
+            //"Let's Encrypt" certificate used by api.morrillo.it causes an issue on 4.4 and inferior
+            return "http://api.morrillo.it/classeviva/v1/";
+        }
     }
 }
