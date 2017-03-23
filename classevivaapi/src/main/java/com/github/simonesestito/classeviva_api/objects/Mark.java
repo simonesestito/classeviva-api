@@ -28,7 +28,7 @@ public class Mark implements Serializable {
         List<Integer> schoolMonths = Arrays.asList(8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7);
         Calendar result = Calendar.getInstance();
         result.set(Calendar.DAY_OF_MONTH, Integer.valueOf(date.substring(0, 2)));
-        int month = Integer.valueOf(date.substring(date.length()-2, date.length()))-1;
+        int month = Integer.valueOf(date.substring(date.length()-2, date.length()));
         result.set(Calendar.MONTH, month);
         if (schoolMonths.indexOf(month) < schoolMonths.indexOf(Calendar.getInstance().get(Calendar.MONTH))
                 && month > Calendar.getInstance().get(Calendar.MONTH)) {
