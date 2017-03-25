@@ -1,6 +1,8 @@
 package com.github.simonesestito.classeviva_api.objects;
 
 
+import com.github.simonesestito.classeviva_api.Utils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +22,7 @@ public class Profile implements Serializable {
         JSONObject obj = json.getJSONObject(0);
         if (!obj.getBoolean("success"))
             throw new JSONException("Login failed");
-        name = obj.getString("name");
+        name = Utils.getInstance().capitalizeWords(obj.getString("name"));
         surname = obj.getString("cognome");
         userid = obj.getString("userid");
         type = obj.getString("type");
