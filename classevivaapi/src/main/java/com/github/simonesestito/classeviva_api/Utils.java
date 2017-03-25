@@ -1,7 +1,7 @@
-package com.github.simonesestito.classeviva_api.objects;
+package com.github.simonesestito.classeviva_api;
 
 
-class Utils {
+public class Utils {
 
     //Singleton pattern
     private static Utils instance = null;
@@ -15,7 +15,7 @@ class Utils {
     }
 
 
-    String capitalizeWords(String from){
+    public String capitalizeWords(String from){
         String result = "";
         char back = ' ';
         for (char c : from.toCharArray()){
@@ -28,7 +28,7 @@ class Utils {
         return result;
     }
 
-    String capitalizeFirst(String from){
+    public String capitalizeFirst(String from){
         return Character.toUpperCase(from.charAt(0)) + from.substring(1, from.length()).toLowerCase();
     }
 }

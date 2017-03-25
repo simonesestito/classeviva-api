@@ -1,5 +1,7 @@
 package com.github.simonesestito.classeviva_api.objects;
 
+import com.github.simonesestito.classeviva_api.Utils;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
