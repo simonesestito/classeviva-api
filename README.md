@@ -1,4 +1,4 @@
-<h1 align="center">ClasseViva API</h1>
+<h1 align="center">[DEPRECATED] ClasseViva API</h1>
 
 <h2 align="center">
 <a href="https://android-arsenal.com/api?level=8"><img src="https://img.shields.io/badge/API-8%2B-blue.svg?style=flat" border="0" alt="API"></a>
@@ -28,13 +28,13 @@ dependencies {
 }
 ```
 
-##How to use
-####1) Create a new ClassevivaSession,
+## How to use
+### 1) Create a new ClassevivaSession,
 passing your secret API key (if you don't have one, go to <a href="https://github.com/simonesestito/classeviva-api/blob/master/README.md#api-key"><i><b>API Key</b></i></a> paragraph) and Context
 ```Java
 ClassevivaSession session = new ClassevivaSession(API_KEY, getApplicationContext());
 ```
-####2) Login
+### 2) Login
 ```Java
 OnResultsAvailable<Profile> listener = new OnResultsAvailable<>(){
  @Override
@@ -52,7 +52,7 @@ OnResultsAvailable<Profile> listener = new OnResultsAvailable<>(){
 session.login(username, password, listener);
 ```
 
-####3a) Get Grades List
+### 3a) Get Grades List
 ```Java
 OnResultsAvailable<List<Mark>> listener = new OnResultsAvailable<>(){
  @Override
@@ -71,7 +71,7 @@ OnResultsAvailable<List<Mark>> listener = new OnResultsAvailable<>(){
 instance.getMarksList(listener);
 ```
 
-####3b) Get Agenda
+### 3b) Get Agenda
 ```Java
 OnResultsAvailable<List<AgendaItem>> listener = new OnResultsAvailable<>(){
  @Override
@@ -89,15 +89,15 @@ OnResultsAvailable<List<AgendaItem>> listener = new OnResultsAvailable<>(){
 
 instance.getAgenda(listener);
 ```
-####WARNING:
+### WARNING:
 if you call _getAgenda()_ or _getMarksList()_ **before** _login()_, you will throw an IllegalStateException!
 
 
-##Api Key
+## Api Key
 If you haven't got any API Key, you have to ask it to <a href="https://github.com/wettsy/">@Wettsy</a>
 
 
-##License
+## License
 
 Copyright 2017 Simone Sestito
 
